@@ -10,10 +10,11 @@ namespace MountainMeter.iOS
 	{
 		CMPedometer pedometer;
 		int total;
-		const int mt_Eve_height = 8848;
+		public Mountain mountain;
 		public TrackingController(IntPtr handle) : base(handle)
 		{
-
+			if (mountain == null)
+				mountain = new Mountain("Mount Everest", 8898, 29029);
 		}
 		public void setToolBar()
 		{
@@ -29,10 +30,9 @@ namespace MountainMeter.iOS
 				})}, false);
 			NavigationController.ToolbarHidden = false;
 		}
-
-		public override async void ViewDidLoad()
+		public override async void ViewWillAppear(bool animated)
 		{
-			base.ViewDidLoad();
+			base.ViewWillAppear(animated);
 			setToolBar();
 
 
@@ -49,6 +49,26 @@ namespace MountainMeter.iOS
 			}
 			else
 				TravelLabel.Text = "Floor counting not enabled on this device";
+		}
+		public override async void ViewDidLoad()
+		{
+			base.ViewDidLoad();
+			//setToolBar();
+
+
+			//var plist = NSUserDefaults.StandardUserDefaults;
+
+			//if (CMPedometer.IsFloorCountingAvailable)
+			//{
+			//	pedometer = new CMPedometer();
+			//	pedometer.StartPedometerUpdates(new NSDate(), UpdatePedometerData);
+
+			//	var data = await pedometer.QueryPedometerDataAsync((NSDate)DateTime.SpecifyKind(Convert.ToDateTime(plist.StringForKey("installDate")), DateTimeKind.Utc), (NSDate)DateTime.Now);
+			//	UpdatePedometerData(data, null);
+
+			//}
+			//else
+			//	TravelLabel.Text = "Floor counting not enabled on this device";
 
 		}
 		void UpdatePedometerData(CMPedometerData data, NSError error)
@@ -60,7 +80,7 @@ namespace MountainMeter.iOS
 				{
 					total = ((int)data.FloorsAscended + (int)data.FloorsDescended) * 3;
 					TravelLabel.Text = string.Format("You have climbed {0} meters", total);
-					ProgressLabel.Text = string.Format("That's {0}% of Mt. Everest's {1}m height", ((float)total / mt_Eve_height).ToString("0.00"), mt_Eve_height);
+					ProgressLabel.Text = string.Format("That's {0}% of {1} {2}m height", ((float)total / mountain.Meters).ToString("0.00"), mountain.Name, mountain.Meters);
 
 				});
 			}

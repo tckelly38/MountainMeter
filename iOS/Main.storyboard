@@ -23,7 +23,7 @@
         </scene>
         <scene sceneID="62">
             <objects>
-                <viewController id="63" sceneMemberID="viewController" customClass="TrackingController">
+                <viewController id="63" sceneMemberID="viewController" customClass="TrackingController" storyboardIdentifier="TrackingController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="60"/>
                         <viewControllerLayoutGuide type="bottom" id="61"/>

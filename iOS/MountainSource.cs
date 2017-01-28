@@ -8,22 +8,32 @@ namespace MountainMeter.iOS
 	{
 		List<Mountain> Mountains;
 		string CellIdentifier = "TableCell";
-
-		public MountainSource(List<Mountain> m)
+		UIViewController owner;
+		public MountainSource(List<Mountain> m, UIViewController o)
 		{
 			Mountains = m;
+			owner = o;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);
-
+			Mountain m = Mountains[indexPath.Row];
 			if (cell == null)
 				cell = new UITableViewCell(UITableViewCellStyle.Subtitle, CellIdentifier);
 
-			cell.TextLabel.Text = Mountains[indexPath.Row].Name;
-			cell.DetailTextLabel.Text = Mountains[indexPath.Row].Meters.ToString();
+			cell.TextLabel.Text = m.Name;
+			cell.DetailTextLabel.Text = m.Meters + "m\t" + m.Feet + "ft\t" + m.Location;
+			cell.DetailTextLabel.TextColor = UIColor.LightGray;
+			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			return cell;
+
+		}
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			//hacky way to pass data back on the navigtion stack
+			((TrackingController)owner.NavigationController.ViewControllers[0]).mountain = Mountains[indexPath.Row];
+			owner.NavigationController.PopViewController(true);
 
 		}
 
