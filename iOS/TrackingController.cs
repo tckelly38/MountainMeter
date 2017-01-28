@@ -50,26 +50,9 @@ namespace MountainMeter.iOS
 			else
 				TravelLabel.Text = "Floor counting not enabled on this device";
 		}
-		public override async void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			//setToolBar();
-
-
-			//var plist = NSUserDefaults.StandardUserDefaults;
-
-			//if (CMPedometer.IsFloorCountingAvailable)
-			//{
-			//	pedometer = new CMPedometer();
-			//	pedometer.StartPedometerUpdates(new NSDate(), UpdatePedometerData);
-
-			//	var data = await pedometer.QueryPedometerDataAsync((NSDate)DateTime.SpecifyKind(Convert.ToDateTime(plist.StringForKey("installDate")), DateTimeKind.Utc), (NSDate)DateTime.Now);
-			//	UpdatePedometerData(data, null);
-
-			//}
-			//else
-			//	TravelLabel.Text = "Floor counting not enabled on this device";
-
 		}
 		void UpdatePedometerData(CMPedometerData data, NSError error)
 		{
