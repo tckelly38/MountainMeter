@@ -13,6 +13,7 @@ namespace MountainMeter.iOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			this.NavigationController.NavigationBarHidden = false;
 			var items = new List<Mountain>();
 			items.Add(new Mountain("Mount Everest", 8848, 29029, "Nepal", "Himalayas", "https://en.wikipedia.org/wiki/Mount_Everest"));
 			items.Add(new Mountain("Nanda Devi", 7816, 25643, "India", "Himalayas", "https://en.wikipedia.org/wiki/Nanda_Devi"));

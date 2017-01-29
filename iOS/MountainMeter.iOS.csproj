@@ -129,6 +129,7 @@
     <BundleResource Include="Resources\Images\ic_filter_hdr.png" />
     <BundleResource Include="Resources\Images\ic_filter_hdr%402x.png" />
     <BundleResource Include="Resources\Images\ic_filter_hdr%403x.png" />
+    <BundleResource Include="Resources\Images\mountain.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

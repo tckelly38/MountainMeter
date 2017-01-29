@@ -33,8 +33,7 @@ namespace MountainMeter.iOS
 		public override async void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
-			setToolBar();
-
+			this.NavigationController.NavigationBarHidden = true;
 
 			var plist = NSUserDefaults.StandardUserDefaults;
 
@@ -53,6 +52,11 @@ namespace MountainMeter.iOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			setToolBar();
+			TravelLabel.Font = TravelLabel.Font.WithSize(34f);
+			ProgressLabel.Font = ProgressLabel.Font.WithSize(28f);
+
+			this.View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("Images/mountain.jpg").Scale(View.Bounds.Size));
 		}
 		void UpdatePedometerData(CMPedometerData data, NSError error)
 		{
@@ -62,8 +66,8 @@ namespace MountainMeter.iOS
 				InvokeOnMainThread(() =>
 				{
 					total = ((int)data.FloorsAscended + (int)data.FloorsDescended) * 3;
-					TravelLabel.Text = string.Format("You have climbed {0} meters", total);
-					ProgressLabel.Text = string.Format("That's {0}% of {1} {2}m height", ((float)total / mountain.Meters).ToString("0.00"), mountain.Name, mountain.Meters);
+					TravelLabel.Text = string.Format("{0}/{1}m", total, mountain.Meters);
+					ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round((float)total / mountain.Meters, 2) * 100, mountain.Name);
 
 				});
 			}
