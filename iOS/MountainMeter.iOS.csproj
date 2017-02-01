@@ -129,6 +129,19 @@
       <DependentUpon>SettingsController.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingsSource.cs" />
+    <Compile Include="TrailController.cs" />
+    <Compile Include="TrailController.designer.cs">
+      <DependentUpon>TrailController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContainerController.cs" />
+    <Compile Include="ContainerController.designer.cs">
+      <DependentUpon>ContainerController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrailListController.cs" />
+    <Compile Include="TrailListController_.designer.cs">
+      <DependentUpon>TrailListController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TrailSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Images\ic_filter_hdr.png" />
@@ -138,6 +151,10 @@
     <BundleResource Include="Resources\Images\ic_settings_18pt%402x.png" />
     <BundleResource Include="Resources\Images\ic_settings_18pt%403x.png" />
     <BundleResource Include="Resources\Images\ic_settings_18pt.png" />
+    <BundleResource Include="Resources\Images\trail.jpg" />
+    <BundleResource Include="Resources\Images\ic_directions_run_18pt%402x.png" />
+    <BundleResource Include="Resources\Images\ic_directions_run_18pt%403x.png" />
+    <BundleResource Include="Resources\Images\ic_directions_run_18pt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

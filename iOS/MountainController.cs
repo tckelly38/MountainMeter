@@ -15,6 +15,7 @@ namespace MountainMeter.iOS
 			base.ViewDidLoad();
 			TrackingController.setToolBar(this);
 			this.NavigationController.NavigationBarHidden = false;
+			this.Title = "Mountains";
 			var items = new List<Mountain>();
 			items.Add(new Mountain("Mount Everest", 8848, 29029, "Nepal", "Himalayas", "https://en.wikipedia.org/wiki/Mount_Everest"));
 			items.Add(new Mountain("Nanda Devi", 7816, 25643, "India", "Himalayas", "https://en.wikipedia.org/wiki/Nanda_Devi"));
