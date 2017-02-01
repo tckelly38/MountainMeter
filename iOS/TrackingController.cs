@@ -3,7 +3,7 @@ using System;
 using UIKit;
 using CoreMotion;
 using Foundation;
-
+using System.Linq;
 namespace MountainMeter.iOS
 {
 	public partial class TrackingController : UIViewController
@@ -16,19 +16,62 @@ namespace MountainMeter.iOS
 			if (mountain == null)
 				mountain = new Mountain("Mount Everest", 8898, 29029);
 		}
-		public void setToolBar()
+		public static void setToolBar(UIViewController owner)
 		{
-			SetToolbarItems(new UIBarButtonItem[] {
-				new UIBarButtonItem(UIImage.FromBundle("Images/ic_filter_hdr"), UIBarButtonItemStyle.Plain, (sender, e) => {
-					//open mountain stuff
-					MountainController mc = Storyboard.InstantiateViewController("MountainController") as MountainController;
-					if(mc != null){
-						NavigationController.PushViewController(mc, true);
-
+			var settingsButton = new UIBarButtonItem(UIImage.FromBundle("Images/ic_settings_18pt"), UIBarButtonItemStyle.Plain, (sender, e) =>
+			{
+				//open mountain stuff
+				SettingsController settings = owner.Storyboard.InstantiateViewController("SettingsController") as SettingsController;
+				if (settings != null)
+				{
+					if (owner is TrackingController)
+					{
+						owner.NavigationController.PushViewController(settings, true);
+					}
+					else {
+						//var viewControllers = owner.NavigationController.ViewControllers;
+						//viewControllers = viewControllers.Take(viewControllers.Length - 1).ToArray();
+						//owner.NavigationController.SetViewControllers(viewControllers, false);
+						UINavigationController nav = owner.NavigationController;
+						nav.PopToRootViewController(false);
+						nav.PushViewController(settings, false);
 					}
 
-				})}, false);
-			NavigationController.ToolbarHidden = false;
+				}
+			});
+			var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 };
+
+			var mountainButton = new UIBarButtonItem(UIImage.FromBundle("Images/ic_filter_hdr"), UIBarButtonItemStyle.Plain, (sender, e) =>
+			{
+				//open mountain stuff
+				MountainController mc = owner.Storyboard.InstantiateViewController("MountainController") as MountainController;
+				if (mc != null)
+				{
+					if (owner is TrackingController)
+						owner.NavigationController.PushViewController(mc, true);
+					else
+					{
+						//var viewControllers = owner.NavigationController.ViewControllers;
+						//viewControllers = viewControllers.Take(viewControllers.Length - 1).ToArray();
+						//owner.NavigationController.SetViewControllers(viewControllers, false);
+						UINavigationController nav = owner.NavigationController;
+						nav.PopToRootViewController(false);
+						nav.PushViewController(mc, false);
+					}
+				}
+			});
+
+			
+			owner.SetToolbarItems(new UIBarButtonItem[] {
+				settingsButton, spacer, mountainButton
+			}, false);
+			if (owner is MountainController)
+				mountainButton.Enabled = false;
+			else if (owner is SettingsController)
+				settingsButton.Enabled = false;
+
+			owner.NavigationController.ToolbarHidden = false;
+			owner.NavigationController.NavigationBarHidden = false;
 		}
 		public override async void ViewWillAppear(bool animated)
 		{
@@ -52,7 +95,7 @@ namespace MountainMeter.iOS
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			setToolBar();
+			setToolBar(this);
 			TravelLabel.Font = TravelLabel.Font.WithSize(34f);
 			ProgressLabel.Font = ProgressLabel.Font.WithSize(28f);
 

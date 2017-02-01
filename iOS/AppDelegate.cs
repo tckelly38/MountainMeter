@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using System;
+using Foundation;
 using UIKit;
 
 namespace MountainMeter.iOS
@@ -20,7 +21,13 @@ namespace MountainMeter.iOS
 		{
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
+			var plist = NSUserDefaults.StandardUserDefaults;
 
+			if (string.IsNullOrEmpty(plist.StringForKey("installDate")))
+			{
+				plist.SetString(DateTime.Now.ToString(), "installDate");
+				plist.Synchronize();
+			}
 			return true;
 		}
 

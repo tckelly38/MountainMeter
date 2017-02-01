@@ -124,12 +124,20 @@
       <DependentUpon>TrackingController.cs</DependentUpon>
     </Compile>
     <Compile Include="MountainSource.cs" />
+    <Compile Include="SettingsController.cs" />
+    <Compile Include="SettingsController.designer.cs">
+      <DependentUpon>SettingsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Images\ic_filter_hdr.png" />
     <BundleResource Include="Resources\Images\ic_filter_hdr%402x.png" />
     <BundleResource Include="Resources\Images\ic_filter_hdr%403x.png" />
     <BundleResource Include="Resources\Images\mountain.jpg" />
+    <BundleResource Include="Resources\Images\ic_settings_18pt%402x.png" />
+    <BundleResource Include="Resources\Images\ic_settings_18pt%403x.png" />
+    <BundleResource Include="Resources\Images\ic_settings_18pt.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
