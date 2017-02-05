@@ -11,10 +11,12 @@ namespace MountainMeter.iOS
 		CMPedometer pedometer;
 		int total;
 		public Mountain mountain;
+		bool highIntensityDisplayed;
 		public TrackingController(IntPtr handle) : base(handle)
 		{
 			if (mountain == null)
 				mountain = new Mountain("Mount Everest", 8898, 29029);
+			highIntensityDisplayed = false;
 		}
 
 		public override async void ViewWillAppear(bool animated)
@@ -24,7 +26,7 @@ namespace MountainMeter.iOS
 
 			var plist = NSUserDefaults.StandardUserDefaults;
 
-			if (CMPedometer.IsFloorCountingAvailable)
+			if (CMPedometer.IsFloorCountingAvailable && CMPedometer.IsCadenceAvailable)
 			{
 				pedometer = new CMPedometer();
 				pedometer.StartPedometerUpdates(new NSDate(), UpdatePedometerData);
@@ -46,6 +48,11 @@ namespace MountainMeter.iOS
 			ProgressLabel.Font = ProgressLabel.Font.WithSize(28f);
 
 			this.View.BackgroundColor = UIColor.FromPatternImage(UIImage.FromFile("Images/mountain.jpg").Scale(View.Bounds.Size));
+			TravelLabel.UserInteractionEnabled = true;
+			ProgressLabel.UserInteractionEnabled = true;
+			var plist = NSUserDefaults.StandardUserDefaults;
+
+
 		}
 		void UpdatePedometerData(CMPedometerData data, NSError error)
 		{
@@ -54,9 +61,40 @@ namespace MountainMeter.iOS
 			{
 				InvokeOnMainThread(() =>
 				{
+					var plist = NSUserDefaults.StandardUserDefaults;
+					//high intensity cadence for stairs determined to be around 1.5
+					if (data.CurrentCadence != null)
+					{
+						//so if cadence meets threshold, and there was climbing progress made, go ahead and update high intensity meters
+						if ((double)data.CurrentCadence > 1.5 && total < ((int)data.FloorsAscended + (int)data.FloorsDescended) * 3)
+						{
+							plist.SetInt(plist.IntForKey("highIntensity") + 3, "highIntensity");
+							plist.Synchronize();
+						}
+
+					}
 					total = ((int)data.FloorsAscended + (int)data.FloorsDescended) * 3;
-					TravelLabel.Text = string.Format("{0}/{1}m", total, mountain.Meters);
-					ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round((float)total / mountain.Meters, 2) * 100, mountain.Name);
+					UITapGestureRecognizer tap = new UITapGestureRecognizer((obj) =>
+					{
+						if (!highIntensityDisplayed)
+						{
+							TravelLabel.Text = string.Format("{0}/{1}m", plist.IntForKey("highIntensity"), total);
+							ProgressLabel.Text = string.Format("{0}% at high Intensity", Math.Round(((double)plist.IntForKey("highIntensity") / total) * 100, 2));
+						}
+						else {
+							TravelLabel.Text = string.Format("{0}/{1}m", total, mountain.Meters);
+							ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round(((float)total / mountain.Meters) * 100, 2), mountain.Name);
+
+						}
+						highIntensityDisplayed = !highIntensityDisplayed;
+					});
+
+					ProgressLabel.AddGestureRecognizer(tap);
+					TravelLabel.AddGestureRecognizer(tap);
+					if(string.IsNullOrEmpty(TravelLabel.Text) || TravelLabel.Text == "Label")
+						TravelLabel.Text = string.Format("{0}/{1}m", total, mountain.Meters);
+					if (string.IsNullOrEmpty(ProgressLabel.Text) || ProgressLabel.Text == "Label")
+						ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round((float)total / mountain.Meters, 2) * 100, mountain.Name);
 
 				});
 			}
@@ -85,7 +123,7 @@ namespace MountainMeter.iOS
 				}
 			});
 			var spacer = new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace) { Width = 50 };
-			var spacer25= new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 25 };
+			var spacer25 = new UIBarButtonItem(UIBarButtonSystemItem.FixedSpace) { Width = 25 };
 
 			var mountainButton = new UIBarButtonItem(UIImage.FromBundle("Images/ic_filter_hdr"), UIBarButtonItemStyle.Plain, (sender, e) =>
 			{
@@ -133,6 +171,8 @@ namespace MountainMeter.iOS
 				mountainButton.Enabled = false;
 			else if (owner is SettingsController)
 				settingsButton.Enabled = false;
+			else if (owner is TrailListController)
+				trailButton.Enabled = false;
 
 			owner.NavigationController.ToolbarHidden = false;
 			owner.NavigationController.NavigationBarHidden = false;

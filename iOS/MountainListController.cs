@@ -26,7 +26,7 @@ namespace MountainMeter.iOS
 			items.Add(new Mountain("Britton Hill", 105, 344, "Florida", "", "https://en.wikipedia.org/wiki/Britton_Hill"));
 			items.Add(new Mountain("Cho Oyu", 8201, 26906, "Nepal", "Himalayas", "https://en.wikipedia.org/wiki/Cho_Oyu"));
 			items.Add(new Mountain("Annapurna", 8091, 26545, "Nepal", "Himalayas", "https://en.wikipedia.org/wiki/Annapurna"));
-			items = items.OrderBy((arg) => arg.Meters).ToList();
+			items = items.OrderByDescending((arg) => arg.Meters).ToList();
 			TableView.Source = new MountainSource(items, this);
 
 		}

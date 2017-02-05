@@ -40,8 +40,9 @@ namespace MountainMeter.iOS
 					Alert.AddAction(UIAlertAction.Create("Yes", UIAlertActionStyle.Default, (obj) => { 
 						var plist = NSUserDefaults.StandardUserDefaults;
 						plist.SetString(DateTime.Now.ToString(), "installDate");
+						plist.SetInt(0, "highIntensity");
 						plist.Synchronize();
-					
+
 					
 					}));
 					owner.PresentViewController(Alert, animated: true, completionHandler: null);

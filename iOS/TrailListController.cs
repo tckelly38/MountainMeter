@@ -18,10 +18,11 @@ namespace MountainMeter.iOS
 			this.NavigationController.NavigationBarHidden = false;
 			this.Title = "Trails";
 			var items = new List<Trail>();
-			items.Add(new Trail("Greatest Western Loop", 11064, 6875, "Western United States"));
-			items.Add(new Trail("Eastern Continental Trail", 8700, 5400, "Eastern United States"));
+			items.Add(new Trail("Western Loop", 11064, 6875, "Western United States"));
+			items.Add(new Trail("Continental Trail", 8700, 5400, "Eastern United States"));
 			items.Add(new Trail("Florida Trail", 1600, 1000, "Florida"));
-			items = items.OrderBy((arg) => arg.miles).ToList();
+			items.Add(new Trail("Appalachian Trail", 3500, 2200, "Appalachian Mountains"));
+			items = items.OrderByDescending((arg) => arg.miles).ToList();
 			TableView.Source = new TrailSource(items, this);
 
 		}

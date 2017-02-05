@@ -115,9 +115,9 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="MountainController.cs" />
+    <Compile Include="MountainListController.cs" />
     <Compile Include="MountainController.designer.cs">
-      <DependentUpon>MountainController.cs</DependentUpon>
+      <DependentUpon>MountainListController.cs</DependentUpon>
     </Compile>
     <Compile Include="TrackingController.cs" />
     <Compile Include="TrackingController.designer.cs">

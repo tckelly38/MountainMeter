@@ -13,7 +13,7 @@ namespace MountainMeter.iOS
 			if (mountain == null)
 				mountain = new Mountain("Mount Everest", 8898, 29029);
 			if (trail == null)
-				trail = new Trail("Great Western Loop", 11064, 6875);
+				trail = new Trail("Western Loop", 11064, 6875);
 		}
 		public override void ViewWillAppear(bool animated)
 		{

@@ -28,6 +28,11 @@ namespace MountainMeter.iOS
 				plist.SetString(DateTime.Now.ToString(), "installDate");
 				plist.Synchronize();
 			}
+			if (plist.IntForKey("highIntensity") <= 0)
+			{
+				plist.SetInt(0, "highIntensity");
+				plist.Synchronize();
+			}
 			return true;
 		}
 

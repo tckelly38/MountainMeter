@@ -48,8 +48,9 @@ namespace MountainMeter.iOS
 			{
 				InvokeOnMainThread(() =>
 				{
-					TravelLabel.Text = string.Format("{0}/{1}km", (int)data.Distance, trail.km);
-					ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round((float)data.Distance / trail.km, 2) * 100, trail.Name);
+					var distance = (int)data.Distance / 1000;
+					TravelLabel.Text = string.Format("{0}/{1}km", distance, trail.km);
+					ProgressLabel.Text = string.Format("{0}% of {1}", Math.Round(((float)distance / trail.km) * 100, 2), trail.Name);
 
 				});
 			}
